@@ -100,6 +100,7 @@ defmodule TempTest do
     parent = self()
 
     spawn_link(fn ->
+      # credo:disable-for-next-line
       send(parent, {:count, Temp.tracked(tracker) |> Enum.count()})
     end)
 
@@ -119,6 +120,7 @@ defmodule TempTest do
     {:ok, dir} = Temp.mkdir(nil)
 
     spawn_link(fn ->
+      # credo:disable-for-next-line
       send(parent, {:cleaned, Temp.cleanup(tracker) |> Enum.count()})
     end)
 

@@ -1,14 +1,14 @@
 defmodule Temp.Mixfile do
   use Mix.Project
 
-  @source_url "https://github.com/tuvistavie/elixir-temp"
+  @source_url "https://github.com/doofinder/elixir-temp"
   @version "0.4.7"
 
   def project do
     [
       app: :temp,
       version: @version,
-      elixir: "~> 1.0",
+      elixir: "~> 1.12",
       aliases: aliases(),
       name: "temp",
       source_url: @source_url,
@@ -43,6 +43,7 @@ defmodule Temp.Mixfile do
       files: ["lib", "mix.exs", "README.md", "LICENSE"],
       maintainers: ["Daniel Perez"],
       licenses: ["MIT"],
+      organization: "doofinder",
       links: %{"GitHub" => @source_url}
     ]
   end
