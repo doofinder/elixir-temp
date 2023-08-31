@@ -119,7 +119,7 @@ defmodule Temp do
         end
         case ret do
           {:ok, res} ->
-            if tracker = get_tracker(), do: register_path(tracker, path)
+            if tracker = get_tracker(), do: register_path(tracker, {path, res})
             if func, do: {:ok, path}, else: {:ok, res, path}
           err -> err
         end
@@ -134,7 +134,7 @@ defmodule Temp do
   def track_file(path, tracker \\ get_tracker()) do
     case is_nil(tracker) do
       true -> {:error, :tracker_not_found}
-      false -> {:ok, register_path(tracker, path)}
+      false -> {:ok, register_path(tracker, {path, nil})}
     end
   end
 
@@ -168,7 +168,7 @@ defmodule Temp do
       {:ok, path, _} ->
         case File.mkdir path do
           :ok ->
-            if tracker = get_tracker(), do: register_path(tracker, path)
+            if tracker = get_tracker(), do: register_path(tracker, {path, nil})
             {:ok, path}
           err -> err
         end
@@ -184,7 +184,7 @@ defmodule Temp do
   def mkdir!(options \\ %{}) do
     case mkdir(options) do
       {:ok, path} ->
-        if tracker = get_tracker(), do: register_path(tracker, path)
+        if tracker = get_tracker(), do: register_path(tracker, {path, nil})
         path
       {:error, err} -> raise Temp.Error, message: err
     end
@@ -250,8 +250,8 @@ defmodule Temp do
     end
   end
 
-  defp register_path(tracker, path) do
-    GenServer.call(tracker, {:add, path})
+  defp register_path(tracker, {file, fd}) do
+    GenServer.call(tracker, {:add, {file, fd}})
   end
 
   defp timestamp do

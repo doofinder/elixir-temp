@@ -35,7 +35,8 @@ defmodule Temp.Tracker do
   defp cleanup(state) do
     {removed, failed} =
       state
-      |> Enum.reduce({[], []}, fn path, {removed, failed} ->
+      |> Enum.reduce({[], []}, fn {path, fd}, {removed, failed} ->
+        File.close(fd)
         case File.rm_rf(path) do
           {:ok, _} -> {[path | removed], failed}
           _ -> {removed, [path | failed]}

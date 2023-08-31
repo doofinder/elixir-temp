@@ -20,7 +20,20 @@ erl_crash.dump
 *.ez
 
 # Ignore package tarball (built via "mix hex.build").
-temp-*.tar
+dftasks-*.tar
 
 # Temporary files for e.g. tests
 /tmp
+
+# Logs folder
+/log
+
+# emacs backup files
+*~
+.tool-versions
+
+# Dev test feeds
+/feeds/
+
+# Ignore extras
+.vscode
