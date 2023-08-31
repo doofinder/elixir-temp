@@ -2,10 +2,10 @@ defmodule Temp.Tracker do
   use GenServer
 
   if :application.get_key(:elixir, :vsn) |> elem(1) |> to_string() |> Version.match?("~> 1.1") do
-    defp set(), do: MapSet.new
+    defp set(), do: MapSet.new()
     defdelegate put(set, value), to: MapSet
   else
-    defp set(), do: HashSet.new
+    defp set(), do: HashSet.new()
     defdelegate put(set, value), to: HashSet
   end
 
@@ -37,11 +37,13 @@ defmodule Temp.Tracker do
       state
       |> Enum.reduce({[], []}, fn {path, fd}, {removed, failed} ->
         File.close(fd)
+
         case File.rm_rf(path) do
           {:ok, _} -> {[path | removed], failed}
           _ -> {removed, [path | failed]}
         end
       end)
+
     {:lists.reverse(removed), :lists.reverse(failed)}
   end
 end

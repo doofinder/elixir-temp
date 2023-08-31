@@ -9,6 +9,7 @@ defmodule Temp.Mixfile do
       app: :temp,
       version: @version,
       elixir: "~> 1.0",
+      aliases: aliases(),
       name: "temp",
       source_url: @source_url,
       homepage_url: @source_url,
@@ -26,7 +27,11 @@ defmodule Temp.Mixfile do
   end
 
   defp deps do
-    [{:ex_doc, ">= 0.0.0", only: :dev}]
+    [
+      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false}
+    ]
   end
 
   defp description do
@@ -39,6 +44,20 @@ defmodule Temp.Mixfile do
       maintainers: ["Daniel Perez"],
       licenses: ["MIT"],
       links: %{"GitHub" => @source_url}
+    ]
+  end
+
+  defp aliases do
+    [
+      test: [
+        "test --no-start"
+      ],
+      consistency: [
+        "format",
+        "compile --force --warnings-as-errors --no-deps-check",
+        "credo --strict --ignore todo",
+        "dialyzer"
+      ]
     ]
   end
 end
