@@ -1,11 +1,11 @@
-# elixir-temp
+# Why this fork exists?
 
-[![Build Status](https://travis-ci.org/danhper/elixir-temp.svg?branch=master)](https://travis-ci.org/danhper/elixir-temp)
-[![Module Version](https://img.shields.io/hexpm/v/temp.svg)](https://hex.pm/packages/temp)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/temp/)
-[![Total Download](https://img.shields.io/hexpm/dt/temp.svg)](https://hex.pm/packages/temp)
-[![License](https://img.shields.io/hexpm/l/temp.svg)](https://github.com/danhper/elixir-temp/blob/master/LICENSE)
-[![Last Updated](https://img.shields.io/github/last-commit/danhper/elixir-temp.svg)](https://github.com/danhper/elixir-temp/commits/master)
+Because we want to call `Temp.cleanup/0` at any time and expect that the files are not only removed but also the disk space is reclaimed.
+
+## How the fix works?
+We store not only the **file path**, but also the **file decriptor** associated to it, this two friends go to `Temp.Tracker`'s state so `Temp.cleanup/0` is now able to close the file before removing it, at any time.
+
+# elixir-temp
 
 An Elixir module to easily create and use temporary files and directories.
 The module is inspired by [node-temp](https://github.com/bruce/node-temp).

@@ -24,3 +24,13 @@ temp-*.tar
 
 # Temporary files for e.g. tests
 /tmp
+
+# Logs folder
+/log
+
+# emacs backup files
+*~
+.tool-versions
+
+# Ignore extras
+.vscode
