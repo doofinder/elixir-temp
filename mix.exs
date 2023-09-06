@@ -6,11 +6,11 @@ defmodule Temp.Mixfile do
 
   def project do
     [
-      app: :temp,
+      app: :ex_temp,
       version: @version,
       elixir: "~> 1.12",
       aliases: aliases(),
-      name: "temp",
+      name: "ExTemp",
       source_url: @source_url,
       homepage_url: @source_url,
       package: package(),
@@ -35,7 +35,7 @@ defmodule Temp.Mixfile do
   end
 
   defp description do
-    "An Elixir module to easily create and use temporary files and directories."
+    "An Elixir module to easily create and use temporary files and directories. Forked from: https://github.com/danhper/elixir-temp"
   end
 
   defp package do

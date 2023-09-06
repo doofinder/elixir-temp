@@ -1,0 +1,48 @@
+name: Publish
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - master
+
+jobs:
+  publish_if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-20.04
+    env:
+      HEX_API_KEY: ${{ secrets.HEX_KEY }}
+    strategy:
+      matrix:
+        elixir: [ 1.12.2 ]
+        otp: [ 24.0.5 ]
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+
+      - name: Setup elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{ matrix.otp }}
+          elixir-version: ${{ matrix.elixir }}
+
+      - name: Install Mix Dependencies
+        if: steps.mix-cache.outputs.cache-hit != 'true'
+        run: |
+          mix local.rebar --force
+          mix local.hex --force
+          mix hex.organization auth doofinder --key $HEX_API_KEY
+          mix deps.get
+
+      - name: Publish
+        run: |
+          HEX_API_KEY=$HEX_API_KEY mix hex.publish --yes
+
+      - name: Autotagger
+        uses: ButlerLogic/action-autotag@1.1.1
+        with:
+          strategy: regex
+          root: "${{ github.workspace }}/mix.exs"
+          regex_pattern: '@version "([0-9][0-9]?\.[0-9][0-9]?\.[0-9][0-9]?)"'
