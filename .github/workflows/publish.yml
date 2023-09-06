@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       HEX_API_KEY: ${{ secrets.HEX_KEY }}
+      GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
     strategy:
       matrix:
         elixir: [ 1.12.2 ]
