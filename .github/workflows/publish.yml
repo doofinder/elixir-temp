@@ -6,10 +6,10 @@ on:
       - closed
     branches:
       - master
+  workflow_dispatch:
 
 jobs:
-  publish_if_merged:
-    if: github.event.pull_request.merged == true
+  publish:
     runs-on: ubuntu-20.04
     env:
       HEX_API_KEY: ${{ secrets.HEX_KEY }}
